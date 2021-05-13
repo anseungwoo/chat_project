@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:test_provider/main_provider.dart';
+
+import 'provider/login_screen_provider.dart';
+import 'screen/login_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -10,7 +14,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: MainProvider(),
+      home: MultiProvider(
+        providers: [
+          ChangeNotifierProvider(
+            create: (BuildContext context) {
+              return LoginScreenProvider();
+            },
+          )
+        ],
+        child: LoginScreen(),
+      ),
     );
   }
 }
