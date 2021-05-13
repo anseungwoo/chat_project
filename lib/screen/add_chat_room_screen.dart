@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:test_provider/constant/size.dart';
 
 class AddChatRoomScreen extends StatefulWidget {
   @override
@@ -15,19 +14,24 @@ class _AddChatRoomScreenState extends State<AddChatRoomScreen> {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Text(
-                      "대화상대 선택",
-                      style: TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black),
-                    ),
-                  ],
-                ),
+              Row(
+                children: [
+                  IconButton(
+                      icon: Icon(Icons.arrow_back),
+                      onPressed: () {
+                        Navigator.pop(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => AddChatRoomScreen()));
+                      }),
+                  Text(
+                    "대화상대 선택",
+                    style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black),
+                  ),
+                ],
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -35,8 +39,7 @@ class _AddChatRoomScreenState extends State<AddChatRoomScreen> {
                   children: [
                     Icon(Icons.search_rounded),
                     Flexible(
-                      child:
-                      TextField(
+                      child: TextField(
                         decoration: InputDecoration(
                             border: OutlineInputBorder(),
                             contentPadding: EdgeInsets.only(
@@ -62,35 +65,38 @@ class _AddChatRoomScreenState extends State<AddChatRoomScreen> {
                           fontWeight: FontWeight.bold,
                           color: Colors.black54),
                     ),
-
                   ],
                 ),
               ),
               Expanded(
                 child: ListView.builder(
                     itemCount: 20,
-                    itemBuilder: (BuildContext context, int index){
+                    itemBuilder: (BuildContext context, int index) {
                       return Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Row(children: [
-                          CircleAvatar(
-                            backgroundImage: NetworkImage("https://picsum.photos/200"),
-                            radius: 20,
-                          ),
-                          Spacer(
-                            flex: 6,
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("이름", style: TextStyle(fontWeight: FontWeight.bold)),
-                              Text("상태메세지"),
-                            ],
-                          ),
-                          Spacer(
-                            flex: 100,
-                          ),
-                        ],
+                        child: Row(
+                          children: [
+                            CircleAvatar(
+                              backgroundImage:
+                                  NetworkImage("https://picsum.photos/200"),
+                              radius: 20,
+                            ),
+                            Spacer(
+                              flex: 6,
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("이름",
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold)),
+                                Text("상태메세지"),
+                              ],
+                            ),
+                            Spacer(
+                              flex: 100,
+                            ),
+                          ],
                         ),
                       );
                     }),

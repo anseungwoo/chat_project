@@ -4,6 +4,7 @@ import 'package:test_provider/constant/size.dart';
 import 'package:test_provider/screen/add_chat_room_screen.dart';
 import 'package:test_provider/screen/chating_room_screen.dart';
 
+import 'chating_room_friend_list_screen.dart';
 import 'search_chatingroom_screen.dart';
 
 class ChatRoomScreen extends StatelessWidget {
@@ -41,7 +42,7 @@ class ChatRoomScreen extends StatelessWidget {
                       return InkWell(
                         splashColor: Colors.black38,
                         onTap: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (_)=>ChatingRoomScreen()));},
+                          Navigator.push(context, MaterialPageRoute(builder: (_)=>ChatingRoomFriendListScreen()));},
                         child: Row(
                           children: [
                             Padding(
