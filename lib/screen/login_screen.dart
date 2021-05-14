@@ -1,7 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:test_provider/provider/login_screen_provider.dart';
-
 import '../main_provider.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -125,10 +125,10 @@ class LoginScreen extends StatelessWidget {
             onPressed: () {
               if (!login.isJoin) {
                 if (_Gkey.currentState.validate()) {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => MainProvider()));
+                  _log(context);
                 }
               } else {
+                _register(context);
                 login.toggle();
               }
             },
@@ -137,6 +137,32 @@ class LoginScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _register(BuildContext context) async{
+    final UserCredential result = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _eController.text, password: _pController.text);
+    final User user = result.user;
+
+    if(user == null){
+      final snackBar = SnackBar(content: Text('다시 시도하세요'));
+      Scaffold.of(context).showSnackBar(snackBar);
+    }
+
+    // Navigator.push(context, MaterialPageRoute(builder: (context) => MainPage(email: user.email,)));
+  }
+
+  void _log(BuildContext context) async{
+    final UserCredential result = await FirebaseAuth.instance.signInWithEmailAndPassword(email: _eController.text, password: _pController.text);
+    final User user = result.user;
+
+    if(user == null){
+      final snackBar = SnackBar(content: Text('다시 시도하세요'));
+      Scaffold.of(context).showSnackBar(snackBar);
+    }
+    else{
+      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => MainProvider()),(_)=>false);
+    }
+    // Navigator.push(context, MaterialPageRoute(builder: (context) => MainPage(email: user.email,)));
   }
 
   Widget get _logo => Expanded(
@@ -151,3 +177,4 @@ class LoginScreen extends StatelessWidget {
     ),
   );
 }
+
