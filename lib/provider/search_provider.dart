@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 
-
 class SearchPovider extends ChangeNotifier{
   TextEditingController _searchmessageContorller;
   List<String> _messages;
@@ -24,5 +23,4 @@ class SearchPovider extends ChangeNotifier{
       notifyListeners();
     }
   }
-
 }

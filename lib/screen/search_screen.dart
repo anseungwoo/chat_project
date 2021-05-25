@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:test_provider/models/firebase_auth_state.dart';
+import 'package:test_provider/models/user_net_repository.dart';
 import 'package:test_provider/provider/search_provider.dart';
 
 class SearchScreen extends StatelessWidget {
@@ -25,7 +27,11 @@ class SearchScreen extends StatelessWidget {
                         flex: 1,
                       ),
                       Text('내가아는 숨은 맛집추가하기'),
-                      Icon(Icons.add_circle),
+                      InkWell(
+                        onTap: (){
+                        },
+                          child: Icon(Icons.add_circle)),
+
                     ],
                   ),
                 ),
@@ -63,7 +69,14 @@ class SearchScreen extends StatelessWidget {
                               child: Text("${searchProvider.messages[index]}"" 검색에 대한 결과입니다"));
                         }),
                   ),
-                )
+                ),
+                InkWell(
+                    onTap: () {
+                      Provider.of<FireBaseAuthState>(context, listen: false)
+                          .signOut();
+                    },
+                    child: Text('Sign out')),
+
               ],
             ),
           ),

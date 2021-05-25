@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:test_provider/constant/size.dart';
+import 'package:test_provider/models/user_model_state.dart';
 import 'package:test_provider/screen/profile_edit_screen.dart';
 
 import 'chating_room_screen.dart';
@@ -10,6 +12,7 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    UserModelState userModelState = Provider.of<UserModelState>(context);
     return Scaffold(
       body: SafeArea(
         child: Stack(
@@ -40,7 +43,9 @@ class ProfileScreen extends StatelessWidget {
                     height: screenSize(context).width * 3 / 5,
                   ),
                   Text(
-                    "이름",
+                    userModelState == null || userModelState.userModel == null
+                        ? ""
+                        : userModelState.userModel.username,
                     style: TextStyle(
                         fontSize: 30,
                         fontWeight: FontWeight.w500,
@@ -48,7 +53,9 @@ class ProfileScreen extends StatelessWidget {
                   ),
                   Center(
                     child: Text(
-                      "상태메세지",
+                      userModelState == null || userModelState.userModel == null
+                          ? ""
+                          : userModelState.userModel.message,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
@@ -78,13 +85,17 @@ class ProfileScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           InkWell(
-                            onTap: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (_)=>ChatingRoomScreen()));
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) => ChatingRoomScreen()));
                             },
                             child: Column(
                               children: [
-                                Icon(Icons.chat,color: Colors.white),
-                                Text("1:1채팅하기",style: TextStyle(color:Colors.white)),
+                                Icon(Icons.chat, color: Colors.white),
+                                Text("1:1채팅하기",
+                                    style: TextStyle(color: Colors.white)),
                               ],
                             ),
                           ),
@@ -92,14 +103,25 @@ class ProfileScreen extends StatelessWidget {
                             width: screenSize(context).width / 5,
                           ),
                           InkWell(
-                            onTap: (){ Navigator.push(context, MaterialPageRoute(builder: (_)=>ProfileEditScreen()));},
-                              child: Column(
-                                children: [
-                                  Icon(Icons.person,color: Colors.white,),
-                                  Text("내프로필수정하기",style: TextStyle(color:Colors.white),),
-                                ],
-                              ),
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) => ProfileEditScreen()));
+                            },
+                            child: Column(
+                              children: [
+                                Icon(
+                                  Icons.person,
+                                  color: Colors.white,
+                                ),
+                                Text(
+                                  "내프로필수정하기",
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ],
                             ),
+                          ),
                         ],
                       ),
                       SizedBox(
