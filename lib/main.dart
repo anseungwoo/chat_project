@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:test_provider/main_provider.dart';
 import 'package:test_provider/models/firebase_auth_state.dart';
 import 'package:test_provider/models/user_model_state.dart';
-import 'package:test_provider/models/user_net_repository.dart';
+import 'package:test_provider/repos/user_net_repository.dart';
 import 'package:test_provider/screen/login_screen.dart';
 
 import 'screen/indicator.dart';

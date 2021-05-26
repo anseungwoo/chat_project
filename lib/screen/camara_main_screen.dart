@@ -1,9 +1,14 @@
+import 'dart:io';
+
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:test_provider/constant/size.dart';
+import 'package:test_provider/constant/generate_post_key.dart';
 import 'package:test_provider/models/camera_state.dart';
-
+import 'package:test_provider/models/user_model_state.dart';
+import 'package:test_provider/screen/share_post_screen.dart';
 import 'indicator.dart';
 
 class CameraMainScreen extends StatefulWidget {
@@ -30,14 +35,14 @@ class _CameraMainScreenState extends State<CameraMainScreen> {
               height: size.width,
               color: Colors.black,
               child: (cameraState.isReadyToTakePhoto)
-                  ? _getPreview(cameraState)
+                  ? _getPreview(context, cameraState)
                   : _progress,
             ),
             Expanded(
               child: OutlineButton(
                 onPressed: () {
                   if (cameraState.isReadyToTakePhoto) {
-                    // _attemptTakePhoto(cameraState, context);
+                    _attemptTakePhoto(cameraState, context);
                   }
                 },
                 shape: CircleBorder(),
@@ -50,7 +55,7 @@ class _CameraMainScreenState extends State<CameraMainScreen> {
     );
   }
 
-  Widget _getPreview(CameraState cameraState) {
+  Widget _getPreview(context, CameraState cameraState) {
     final Size size = MediaQuery.of(context).size;
     return ClipRect(
       child: OverflowBox(
@@ -66,20 +71,16 @@ class _CameraMainScreenState extends State<CameraMainScreen> {
     );
   }
 
-  // void _attemptTakePhoto(CameraState cameraState, BuildContext context) async {
-  //   final String postKey = getNewPostKey(
-  //       Provider.of<UserModelState>(context, listen: false).userModel);
-  //   try {
-  //     final path = join((await getTemporaryDirectory()).path, '$postKey.png');
-  //
-  //     await cameraState.controller.takePicture(path);
-  //
-  //     File imageFile = File(path);
-  //     Navigator.of(context).push(MaterialPageRoute(
-  //         builder: (_) => SharePostScreen(
-  //           imageFile,
-  //           postKey: postKey,
-  //         )));
-  //   } catch (e) {}
-  // }
+  void _attemptTakePhoto(CameraState cameraState, BuildContext context) async {
+    final String postKey = getNewPostKey(
+        Provider.of<UserModelState>(context, listen: false).userModel);
+    try {
+      final path = join((await getTemporaryDirectory()).path, '$postKey.png');
+
+      XFile pick = await cameraState.controller.takePicture();
+      File imageFile = File(pick.path);
+      Navigator.of(context)
+          .push(MaterialPageRoute(builder: (_) => SharePostScreen(imageFile,postKey: postKey,)));
+    } catch (e) {}
+  }
 }

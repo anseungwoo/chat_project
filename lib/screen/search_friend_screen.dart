@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_search_bar/flutter_search_bar.dart';
+import 'package:test_provider/models/user_model.dart';
 
 import 'profile_screen.dart';
 
@@ -40,7 +41,7 @@ class _SearchFriendScreenState extends State<SearchFriendScreen> {
       key: _scaffoldKey,
       body: InkWell(
         onTap: (){
-          Navigator.push(context, MaterialPageRoute(builder: (_)=>ProfileScreen()));
+          Navigator.pop(context);
         },
         child: Padding(
           padding: const EdgeInsets.all(8.0),

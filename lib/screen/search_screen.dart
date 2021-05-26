@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:test_provider/models/firebase_auth_state.dart';
-import 'package:test_provider/models/user_net_repository.dart';
+import 'package:test_provider/repos/user_net_repository.dart';
 import 'package:test_provider/provider/search_provider.dart';
 
 class SearchScreen extends StatelessWidget {

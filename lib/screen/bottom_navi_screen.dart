@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:test_provider/models/user_model_state.dart';
 import 'package:test_provider/provider/page_provider.dart';
 import 'package:test_provider/screen/chat_room_screen.dart';
 import 'package:test_provider/screen/friend_list_screen.dart';
 import 'package:test_provider/screen/search_screen.dart';
+
+import 'indicator.dart';
 
 class BottomNaviScreen extends StatefulWidget {
 
@@ -50,6 +53,7 @@ class _BottomNaviScreenState extends State<BottomNaviScreen> {
             },
             children: [
               FriendListScreen(),
+
               ChatRoomScreen(),
               SearchScreen(),
             ],

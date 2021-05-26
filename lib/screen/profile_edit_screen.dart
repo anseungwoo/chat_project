@@ -1,9 +1,16 @@
+
+import 'dart:io';
+
+import 'package:app_settings/app_settings.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:test_provider/constant/size.dart';
+import 'package:test_provider/models/PostModel.dart';
 import 'package:test_provider/models/firebase_auth_state.dart';
+import 'package:test_provider/models/user_model_state.dart';
 import 'package:test_provider/screen/camara_screen.dart';
 
 import 'profile_screen.dart';
@@ -18,6 +25,8 @@ class ProfileEditScreen extends StatefulWidget {
 class _ProfileEditScreenState extends State<ProfileEditScreen> {
   final _name = TextEditingController();
   final _commet = TextEditingController();
+  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  GlobalKey<ScaffoldState> _key = GlobalKey<ScaffoldState>();
   FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   @override
   void dispose() {
@@ -28,10 +37,13 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
 
   @override
   Widget build(BuildContext context) {
+    UserModelState userModelState = Provider.of<UserModelState>(context);
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Stack(
+          key: _formKey,
           children: [
             Container(
               decoration: BoxDecoration(
@@ -46,13 +58,12 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
               child: IconButton(
                 icon: Icon(Icons.camera_alt),
                 onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (_) => CameraScreen()));
+                  _openCamera(context);
                 },
               ),
             ),
             Positioned(
-              bottom: screenSize(context).width / 1.5,
+              bottom: screenSize(context).width/1.2 ,
               right: screenSize(context).width / 2 - ProfileEditScreen._radius,
               child: CircleAvatar(
                 backgroundImage: NetworkImage("https://picsum.photos/200"),
@@ -60,7 +71,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
               ),
             ),
             Positioned(
-              bottom: screenSize(context).width / 1.5,
+              bottom: screenSize(context).width /1.2 ,
               right: screenSize(context).width / 2 - ProfileEditScreen._radius,
               child: IconButton(
                 icon: Icon(
@@ -68,8 +79,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                   color: Colors.white,
                 ),
                 onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (_) => CameraScreen()));
+                  _openCamera(context);
                 },
               ),
             ),
@@ -86,7 +96,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                     SizedBox(
                       height: screenSize(context).width * 3 / 4,
                     ),
-                    TextField(
+                    TextFormField(
                       controller: _name,
                       obscureText: false,
                       decoration: InputDecoration(
@@ -101,27 +111,56 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                       height: 10,
                     ),
                     Center(
-                      child: TextField(
+                      child: TextFormField(
                         controller: _commet,
                         obscureText: false,
+
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(25.7),
                           ),
                           labelStyle: TextStyle(color: Colors.white),
                           labelText: '변경할 상태메세지 입력',
+
                         ),
                       ),
                     ),
                     InkWell(
                         onTap: () {
+                            if(_name.text.isEmpty&& _commet.text.isNotEmpty){
+                              Provider.of<FireBaseAuthState>(context, listen: false)
+                                  .namecommetchang(context, name: userModelState.userModel.username, commet: _commet.text);
+
+                              Navigator.pop(
+                                  context,);
+
+                            }
+                            if(_commet.text.isEmpty&& _name.text.isNotEmpty){
+                              Provider.of<FireBaseAuthState>(context, listen: false)
+                                  .namecommetchang(context, name: _name.text, commet: userModelState.userModel.message);
+
+                              Navigator.pop(
+                                context,);
+
+                          }
+                          if(_commet.text.isNotEmpty&& _name.text.isNotEmpty){
+
                           Provider.of<FireBaseAuthState>(context, listen: false)
                               .namecommetchang(context, name: _name.text, commet: _commet.text);
 
                           Navigator.pop(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (_) => ProfileScreen()));
+                            context,);
+                          }
+                            if(_commet.text.isEmpty&& _name.text.isEmpty){
+
+                              Provider.of<FireBaseAuthState>(context, listen: false)
+                                  .namecommetchang(context, name: userModelState.userModel.username, commet: userModelState.userModel.message);
+
+                              Navigator.pop(
+                                context,);
+                            }
+
+
                         },
                         child: Text(
                           '수정하기',
@@ -135,5 +174,40 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
         ),
       ),
     );
+  }
+
+  void _openCamera(context) async {
+    if (await checkIfPermissionGranted(context))
+      Navigator
+          .push(context,MaterialPageRoute(builder: (_) => CameraScreen()));
+    else {
+      Navigator
+          .push(context,MaterialPageRoute(builder: (_) => CameraScreen()));
+      SnackBar snackBar = SnackBar(
+        content: Text('사진, 파일, 마이크 접근 허용 해주셔야 카메라 사용 가능합니당!!'),
+        action: SnackBarAction(
+          label: 'OK',
+          onPressed: () {
+            _key.currentState.hideCurrentSnackBar();
+            AppSettings.openAppSettings();
+          },
+        ),
+      );
+      _key.currentState.showSnackBar(snackBar);
+    }
+  }
+  Future<bool> checkIfPermissionGranted(BuildContext context) async {
+    Map<Permission, PermissionStatus> statuses = await [
+      Permission.camera,
+      Permission.microphone,
+      Platform.isIOS ? Permission.photos : Permission.storage
+    ].request();
+    bool permitted = true;
+
+    statuses.forEach((permission, permissionStatus) {
+      if (!permissionStatus.isGranted) permitted = false;
+    });
+
+    return permitted;
   }
 }

@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:test_provider/models/user_net_repository.dart';
+import 'package:test_provider/repos/user_net_repository.dart';
 
 class FireBaseAuthState extends ChangeNotifier {
   FirebaseAuthStatus _firebaseAuthStatus = FirebaseAuthStatus.signout;
@@ -64,7 +64,7 @@ class FireBaseAuthState extends ChangeNotifier {
       Scaffold.of(context).showSnackBar(snackBar);
     } else {
       await userNetRepository.attemptCreateUser(
-          userKey: _firebaseUser.uid, email: _firebaseUser.email,messeage: "나의상태메세지작성해주세요",name: "");
+          userKey: _firebaseUser.uid, email: _firebaseUser.email);
     }
   }
 

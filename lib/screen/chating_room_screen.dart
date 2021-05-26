@@ -76,8 +76,7 @@ class _ChatingRoomScreenState extends State<ChatingRoomScreen> {
                                   Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
+
                                       children: [
                                         Text("이름"),
                                         SizedBox(

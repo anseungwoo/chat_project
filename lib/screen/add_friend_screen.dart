@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:test_provider/models/user_model.dart';
+import 'package:test_provider/models/user_model_state.dart';
+import 'package:test_provider/repos/user_net_repository.dart';
+import 'package:test_provider/screen/indicator.dart';
 
 class AddFriendScreen extends StatefulWidget {
   @override
@@ -6,102 +11,131 @@ class AddFriendScreen extends StatefulWidget {
 }
 
 class _AddFriendScreenState extends State<AddFriendScreen> {
+  final count = 0;
+  final _search = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: [
-                  Text(
-                    "친구 추가",
-                    style: TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black),
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: [
-                  Text(
-                    "ID 추가",
-                    style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black),
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Divider(
-                color: Colors.black54,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: [
-                  Flexible(
-                    child: TextField(
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          contentPadding: EdgeInsets.only(
-                              left: 15, bottom: 11, top: 11, right: 15),
-                          hintText: "최대 20 글자"),
+    return StreamBuilder<List<UserModel>>(
+        stream: userNetRepository.getAllUser(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return Scaffold(
+              body: SafeArea(
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: [
+                          Text(
+                            "친구 추가",
+                            style: TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  InkWell(
-                      onTap: () {},
-                      splashColor: Colors.black38,
-                      child: Icon(Icons.arrow_forward)),
-                ],
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: [
+                          Text(
+                            "ID 추가",
+                            style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Divider(
+                        color: Colors.black54,
+                      ),
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Consumer<UserModelState>(
+                          builder: (BuildContext context,
+                              UserModelState mUserModelState, Widget child) {
+                            return ListView.builder(
+                              itemCount: snapshot.data.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                UserModel otherUser = snapshot.data[index];
+                                bool fcount = mUserModelState
+                                    .friendcount(otherUser.userKey);
+                                return Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text("유저이름: "+otherUser.username),
+                                          Text("유저 이메일: "+otherUser.email),
+                                        ],
+                                      ),
+                                      Spacer(
+                                        flex: 1,
+                                      ),
+                                      InkWell(
+                                        onTap: () {
+                                          fcount
+                                              ? userNetRepository.unaddUser(
+                                                  myUserKey: mUserModelState
+                                                      .userModel.userKey,
+                                                  otherUserKey:
+                                                      otherUser.userKey)
+                                              : userNetRepository.addUser(
+                                                  myUserKey: mUserModelState
+                                                      .userModel.userKey,
+                                                  otherUserKey:
+                                                      otherUser.userKey);
+                                        },
+                                        child: Container(
+                                          height: 30,
+                                          width: 100,
+                                          alignment: Alignment.center,
+                                          decoration: BoxDecoration(
+                                            color: fcount
+                                                ? Colors.green
+                                                : Colors.red,
+                                            border: Border.all(
+                                                color: fcount
+                                                    ? Colors.green
+                                                    : Colors.red,
+                                                width: 0.5),
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                          ),
+                                          child: Text(
+                                            fcount ? "이미친구입니다" : "친구추가하기",
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: [
-
-                  Text(
-                    "ID를 등록하고 검색을 허용한",
-                    style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black26),
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 8.0,top: 2.0,right: 0.0,bottom: 0.0),
-              child: Row(
-                children: [
-                  Text(
-                    "친구만 찾을 수 있습니다",
-                    style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black26),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+            );
+          } else {
+            return MyProgressIndicator();
+          }
+        });
   }
 }
-/*
-class _AddFriendScreenState extends State<AddFriendScreen>{
-
-}*/

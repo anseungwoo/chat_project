@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:test_provider/constant/size.dart';
 
 class MyProgressIndicator extends StatelessWidget {
   final double containerSize;
@@ -11,7 +12,7 @@ class MyProgressIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        width: containerSize,
+        width: screenSize(context).width,
         height: containerSize,
         child: Center(
             child: SizedBox(

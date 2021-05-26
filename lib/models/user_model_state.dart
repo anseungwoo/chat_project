@@ -23,5 +23,11 @@ class UserModelState extends ChangeNotifier{
     _userModel = null;
   }
 
+  bool friendcount(String otherUserKey) {
+    if(_userModel== null||_userModel.friend==null||_userModel.friend.isEmpty) return false;
+   return _userModel.friend.contains(otherUserKey);
+
+  }
+
 
 }
