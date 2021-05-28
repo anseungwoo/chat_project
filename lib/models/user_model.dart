@@ -8,7 +8,6 @@ class UserModel {
   final String email;
   final String username;
   final List<dynamic> friendname;
-  final List<dynamic> myPosts;
   final String userKey;
   final List<dynamic> friend;
   final int friendcount;
@@ -19,7 +18,7 @@ class UserModel {
   UserModel.fromMap(Map<String, dynamic> map, this.userKey, {this.reference})
       : message = map[KEY_USER_MESSEAGE],
         friendmessage = map[KEY_FRIEND_MESSEAGE],
-        myPosts = map[KEY_PROFILEIMG],
+
         backImage = map[KEY_BACKIMG],
         email = map[KEY_EMAIL],
         friend = map[KEY_FRIEND],
@@ -41,7 +40,6 @@ class UserModel {
     map[KEY_MYFRIENDCOUNT]=0;
     map[KEY_FRIEND]=[];
     map[KEY_FRIEND_NAME]=[];
-    map[KEY_PROFILEIMG]=[];
     map[KEY_BACKIMG]="";
     map[KEY_FRIEND_MESSEAGE]=[];
     map[KEY_USER_MESSEAGE] = "";
