@@ -18,7 +18,6 @@ class UserModel {
   UserModel.fromMap(Map<String, dynamic> map, this.userKey, {this.reference})
       : message = map[KEY_USER_MESSEAGE],
         friendmessage = map[KEY_FRIEND_MESSEAGE],
-
         backImage = map[KEY_BACKIMG],
         email = map[KEY_EMAIL],
         friend = map[KEY_FRIEND],

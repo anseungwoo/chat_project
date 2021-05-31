@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
@@ -31,18 +30,22 @@ class _CameraMainScreenState extends State<CameraMainScreen> {
         return Column(
           children: <Widget>[
             Container(
+
               width: size.width,
               height: size.width,
               color: Colors.black,
               child: (cameraState.isReadyToTakePhoto)
                   ? _getPreview(context, cameraState)
                   : _progress,
+
             ),
             Expanded(
               child: OutlineButton(
                 onPressed: () {
                   if (cameraState.isReadyToTakePhoto) {
+
                     _attemptTakePhoto(cameraState, context);
+
                   }
                 },
                 shape: CircleBorder(),

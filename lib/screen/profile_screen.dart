@@ -2,26 +2,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:test_provider/constant/size.dart';
-import 'package:test_provider/models/PostModel.dart';
-import 'package:test_provider/repos/image_net_repository.dart';
 import 'package:test_provider/models/user_model_state.dart';
-import 'package:test_provider/screen/indicator.dart';
 import 'package:test_provider/screen/profile_edit_screen.dart';
-
 import 'chating_room_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
 
-
   double _radius = 50;
 
-
   @override
-  Widget build(BuildContext context) {
-    Widget progress= MyProgressIndicator(
-      containerSize: screenSize(context).width,
-    );
 
+  Widget build(BuildContext context) {
 
     UserModelState userModelState = Provider.of<UserModelState>(context);
 
@@ -37,6 +28,7 @@ class ProfileScreen extends StatelessWidget {
                 ),
               ),
             ),
+
             Positioned(
               bottom: screenSize(context).width / 1.2,
               right: screenSize(context).width / 2 - _radius,
@@ -45,6 +37,7 @@ class ProfileScreen extends StatelessWidget {
                 radius: _radius,
               )
             ),
+
             SizedBox(
               width: screenSize(context).width,
               child: Column(
@@ -63,6 +56,7 @@ class ProfileScreen extends StatelessWidget {
                         fontWeight: FontWeight.w500,
                         color: Colors.white),
                   ),
+
                   Center(
                     child: Text(
                       userModelState == null || userModelState.userModel == null
@@ -79,6 +73,7 @@ class ProfileScreen extends StatelessWidget {
                 ],
               ),
             ),
+
             Positioned(
                 bottom: 0,
                 child: SizedBox(

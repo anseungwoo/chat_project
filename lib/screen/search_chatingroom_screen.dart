@@ -17,10 +17,12 @@ class _SearchChtingroomScreenState extends State<SearchChtingroomScreen> {
         title: new Text('채팅방검색하기'),
         actions: [searchBar.getSearchAction(context)]);
   }
+
   void onSubmitted(String value) {
     setState(() => _scaffoldKey.currentState
         .showSnackBar(SnackBar(content:  Text('You wrote $value!'))));
   }
+
   _SearchChtingroomScreenState() {
     searchBar = SearchBar(
         inBar: false,

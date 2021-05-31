@@ -25,15 +25,15 @@ class ChatRoomScreen extends StatelessWidget {
                   Spacer(
                     flex: 1,
                   ),
-                  IconButton(
-                      splashRadius: 12,
-                      icon: Icon(Icons.search),
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (_) => SearchChtingroomScreen()));
-                      }),
+                  // IconButton(
+                  //     splashRadius: 12,
+                  //     icon: Icon(Icons.search),
+                  //     onPressed: () {
+                  //       Navigator.push(
+                  //           context,
+                  //           MaterialPageRoute(
+                  //               builder: (_) => SearchChtingroomScreen()));
+                  //     }),
                   IconButton(
                       splashRadius: 12,
                       icon: Icon(Icons.add_comment_outlined),
@@ -114,14 +114,7 @@ class ChatRoomScreen extends StatelessWidget {
                                   "채팅방시간",
                                   style: TextStyle(color: Colors.black38),
                                 ),
-                                CircleAvatar(
-                                    radius: 13,
-                                    backgroundColor: Colors.red,
-                                    child: Text(
-                                      "350",
-                                      style: TextStyle(
-                                          fontSize: 12, color: Colors.white),
-                                    )),
+
                               ],
                             ),
                           ],

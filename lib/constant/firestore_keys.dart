@@ -19,3 +19,17 @@ const KEY_CHATING_TIME ="chating_time";
 const KEY_FRIENDCOUNT ="friend_count";
 const KEY_MYFRIENDCOUNT ="myfriend_count";
 const KEY_FRIEND ="friend";
+
+
+
+const KEY_CONTENT ="content";
+const KEY_SENDTIME="sned_time";
+const KEY_ROOMKEY="roomkey";
+const KEY_ROOMNAME="room_name";
+const KEY_LAST_CHAT="last_chat";
+const KEY_LAST_CHATTIME="last_chattime";
+const KEY_ROOM_IMG="room_img";
+const KEY_USERKEYS="userkeys";
+
+
+

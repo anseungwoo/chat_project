@@ -15,6 +15,7 @@ class PostNetRepository with Transformers{
         .collection(COLLECTION_USERS)
         .doc(postData[KEY_USERKEY]);
 
+    // ignore: missing_return
     return FirebaseFirestore.instance.runTransaction((Transaction tx) async {
       if (!postSnapshot.exists) {
         tx.set(postRef, postData);
@@ -42,7 +43,7 @@ class PostNetRepository with Transformers{
         .snapshots()
         .transform(toPosts);
   }
-  Stream<List<PostModel>> fetchPostsFromAllFollowers(List<dynamic> followings) {
+  Stream<List<PostModel>> fetchPostFromAllFollowers(List<dynamic> followings) {
     final CollectionReference collectionRefernce =
     FirebaseFirestore.instance.collection(COLLECTION_POSTS);
     List<Stream<List<PostModel>>> streams = [];

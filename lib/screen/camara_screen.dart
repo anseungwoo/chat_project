@@ -33,13 +33,17 @@ class _CameraScreenState extends State<CameraScreen> {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+
         ChangeNotifierProvider<CameraState>.value(value: widget._cameraState),
         ChangeNotifierProvider<GalleryState>.value(value: widget._galleryState),
+
       ],
+
       child: Scaffold(
         appBar: AppBar(
           title: Text(_title),
         ),
+
         body: PageView(
           controller: _pageController,
           children: <Widget>[
@@ -47,6 +51,7 @@ class _CameraScreenState extends State<CameraScreen> {
             CameraMainScreen(),
 
           ],
+
           onPageChanged: (index) {
             setState(() {
               _currentIndex = index;
@@ -61,20 +66,24 @@ class _CameraScreenState extends State<CameraScreen> {
             });
           },
         ),
+
         bottomNavigationBar: BottomNavigationBar(
           iconSize: 0,
           selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
           selectedItemColor: Colors.black,
           unselectedItemColor: Colors.black54,
           items: <BottomNavigationBarItem>[
+
             BottomNavigationBarItem(
                 icon: Icon(Icons.radio_button_checked), title: Text('GALLERY')),
             BottomNavigationBarItem(
                 icon: Icon(Icons.radio_button_checked), title: Text('PHOTO')),
 
           ],
+
           currentIndex: _currentIndex,
           onTap: _onItemTabbed,
+
         ),
       ),
     );
@@ -83,9 +92,11 @@ class _CameraScreenState extends State<CameraScreen> {
   void _onItemTabbed(index) {
     print(index);
     setState(() {
+
       _currentIndex = index;
       _pageController.animateToPage(_currentIndex,
           duration: Duration(milliseconds: 200), curve: Curves.fastOutSlowIn);
+
     });
   }
 }

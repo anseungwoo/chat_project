@@ -5,7 +5,7 @@ class PostModel {
   final String postKey;
   final String userKey;
   final String username;
-  final List<dynamic> profilImage;
+  final String profilImage;
   final String backImage;
   final DateTime postTime;
   final DocumentReference reference;
@@ -28,7 +28,7 @@ class PostModel {
     Map<String, dynamic> map = Map();
     map[KEY_USERKEY] = userKey;
     map[KEY_USERNAME] = username;
-    map[KEY_PROFILEIMG] = [];
+    map[KEY_PROFILEIMG] = "";
     map[KEY_BACKIMG] = "";
     map[KEY_POSTTIME] = DateTime.now().toUtc();
     return map;

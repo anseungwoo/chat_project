@@ -22,6 +22,24 @@ class Transformers {
     });
     sink.add(users);
   });
+  final touser = StreamTransformer<QuerySnapshot<Map<String, dynamic>>,
+      List<UserModel>>.fromHandlers(handleData: (snapshot, sink) async {
+    List<UserModel> users = [];
+    snapshot.docs.forEach((documentSnapshot) {
+      users.add(UserModel.fromSnapshot(documentSnapshot));
+    });
+    sink.add(users);
+  });
+  final combineListOfUser =
+  StreamTransformer<List<List<UserModel>>, List<UserModel>>.fromHandlers(
+      handleData: (listOfPosts, sink) async {
+        List<UserModel> users = [];
+        for (final postList in listOfPosts) {
+          users.addAll(postList);
+        }
+        sink.add(users);
+      });
+
 
   final toPosts = StreamTransformer<QuerySnapshot<Map<String, dynamic>>,
       List<PostModel>>.fromHandlers(handleData: (snapshot, sink) async {

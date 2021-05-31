@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 class AddChatRoomScreen extends StatefulWidget {
   @override
   _AddChatRoomScreenState createState() => _AddChatRoomScreenState();
+
 }
 
 class _AddChatRoomScreenState extends State<AddChatRoomScreen> {
+
   @override
+
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
@@ -24,6 +27,7 @@ class _AddChatRoomScreenState extends State<AddChatRoomScreen> {
                             MaterialPageRoute(
                                 builder: (_) => AddChatRoomScreen()));
                       }),
+
                   Text(
                     "대화상대 선택",
                     style: TextStyle(

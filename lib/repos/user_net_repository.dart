@@ -52,12 +52,28 @@ class UserNetRepository with Transformers {
         .transform(toUsers);
   }
 
+
   Stream<UserModel> getUserModelStream(String userKey) {
     return FirebaseFirestore.instance
         .collection(COLLECTION_USERS)
         .doc(userKey)
         .snapshots()
         .transform(toUser);
+  }
+
+  Stream<List<UserModel>> fetchUserFromAllFollowers(List<dynamic> followings) {
+    final CollectionReference collectionRefernce =
+    FirebaseFirestore.instance.collection(COLLECTION_USERS);
+    List<Stream<List<UserModel>>> streams = [];
+
+    for (final following in followings) {
+      streams.add(collectionRefernce
+          .where(KEY_USERKEY, isEqualTo: following)
+          .snapshots()
+          .transform(touser));
+    }
+    return CombineLatestStream.list<List<UserModel>>(streams)
+        .transform(combineListOfUser);
   }
 
   Future<void> addUser({String myUserKey, String otherUserKey}) async {

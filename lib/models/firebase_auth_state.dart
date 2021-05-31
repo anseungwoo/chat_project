@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -21,12 +20,12 @@ class FireBaseAuthState extends ChangeNotifier {
       }
     });
   }
+
   void namecommetchang(BuildContext context,
       {@required String name, @required String commet})async{
     await userNetRepository.namecommet(
         userKey: _firebaseUser.uid, name: name,commet: commet);
   }
-
 
 
   void registerUser(BuildContext context,
@@ -112,6 +111,8 @@ class FireBaseAuthState extends ChangeNotifier {
       Scaffold.of(context).showSnackBar(snackBar);
     }
   }
+
+
   void signOut() async {
     changeFirebaseAuthStatus(FirebaseAuthStatus.progress);
     _firebaseAuthStatus = FirebaseAuthStatus.signout;
@@ -121,8 +122,6 @@ class FireBaseAuthState extends ChangeNotifier {
     }
     notifyListeners();
   }
-
-
 
   void changeFirebaseAuthStatus([FirebaseAuthStatus firebaseAuthStatus]) {
     if (firebaseAuthStatus != null) {
@@ -140,6 +139,7 @@ class FireBaseAuthState extends ChangeNotifier {
 
   FirebaseAuthStatus get fireBaseAuthStatus => _firebaseAuthStatus;
   User get user =>_firebaseUser;
+
 }
 
 enum FirebaseAuthStatus { signout, progress, signin }
