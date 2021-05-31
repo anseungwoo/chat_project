@@ -97,6 +97,17 @@ class _AddFriendScreenState extends State<AddFriendScreen> {
                                                       .userModel.userKey,
                                                   otherUserKey:
                                                       otherUser.userKey);
+                                          fcount
+                                              ? userNetRepository.unaddCUser(
+                                                  myUserKey: mUserModelState
+                                                      .userModel.userKey,
+                                                  otherUserKey:
+                                                      otherUser.userKey)
+                                              : userNetRepository.addCUser(
+                                                  myUserKey: mUserModelState
+                                                      .userModel.userKey,
+                                                  otherUserKey:
+                                                      otherUser.userKey);
                                         },
                                         child: Container(
                                           height: 30,

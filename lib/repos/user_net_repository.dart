@@ -100,6 +100,30 @@ class UserNetRepository with Transformers {
       }
     });
   }
+  Future<void> addCUser({String myUserKey, String otherUserKey}) async {
+    final DocumentReference myUserRef =
+    FirebaseFirestore.instance.collection(COLLECTION_USERS).doc(myUserKey);
+    final DocumentSnapshot mySnapshot = await myUserRef.get();
+    final DocumentReference otherUserRef = FirebaseFirestore.instance
+        .collection(COLLECTION_USERS)
+        .doc(otherUserKey);
+    final DocumentSnapshot otherSnapshot = await otherUserRef.get();
+
+    FirebaseFirestore.instance.runTransaction((tx) async {
+      if (mySnapshot.exists && otherSnapshot.exists) {
+        tx.update(myUserRef, {
+          KEY_FRIEND: FieldValue.arrayUnion([otherUserKey])
+        });
+        tx.update(otherUserRef, {
+          KEY_FRIEND: FieldValue.arrayUnion([myUserKey])
+        });
+        int currenCount = otherSnapshot.get(KEY_MYFRIENDCOUNT);
+        int currenCount1 = mySnapshot.get(KEY_FRIENDCOUNT);
+        tx.update(otherUserRef, {KEY_MYFRIENDCOUNT: currenCount + 1});
+        tx.update(myUserRef, {KEY_FRIENDCOUNT: currenCount1 + 1});
+      }
+    });
+  }
 
   Future<void> unaddUser({String myUserKey, String otherUserKey}) async {
     final DocumentReference myUserRef =
@@ -122,6 +146,32 @@ class UserNetRepository with Transformers {
         int currenCount1 = mySnapshot.get(KEY_MYFRIENDCOUNT);
         tx.update(otherUserRef, {KEY_FRIENDCOUNT: currenCount - 1});
         tx.update(myUserRef, {KEY_MYFRIENDCOUNT: currenCount1 - 1});
+
+      }
+    });
+  }
+  Future<void> unaddCUser({String myUserKey, String otherUserKey}) async {
+    final DocumentReference myUserRef =
+        FirebaseFirestore.instance.collection(COLLECTION_USERS).doc(myUserKey);
+    final DocumentSnapshot mySnapshot = await myUserRef.get();
+    final DocumentReference otherUserRef = FirebaseFirestore.instance
+        .collection(COLLECTION_USERS)
+        .doc(otherUserKey);
+    final DocumentSnapshot otherSnapshot = await otherUserRef.get();
+
+    FirebaseFirestore.instance.runTransaction((tx) async {
+      if (mySnapshot.exists && otherSnapshot.exists) {
+        tx.update(myUserRef, {
+          KEY_FRIEND: FieldValue.arrayRemove([otherUserKey])
+        });
+        tx.update(otherUserRef, {
+          KEY_FRIEND: FieldValue.arrayRemove([myUserKey])
+        });
+        int currenCount = otherSnapshot.get(KEY_MYFRIENDCOUNT);
+        int currenCount1 = mySnapshot.get(KEY_FRIENDCOUNT);
+        tx.update(otherUserRef, {KEY_MYFRIENDCOUNT: currenCount - 1});
+        tx.update(myUserRef, {KEY_FRIENDCOUNT: currenCount1 - 1});
+
       }
     });
   }

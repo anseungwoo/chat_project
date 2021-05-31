@@ -4,7 +4,7 @@ import 'package:test_provider/constant/size.dart';
 import 'package:test_provider/screen/add_chat_room_screen.dart';
 
 import 'chating_room_friend_list_screen.dart';
-import 'search_chatingroom_screen.dart';
+
 
 class ChatRoomScreen extends StatelessWidget {
   @override
