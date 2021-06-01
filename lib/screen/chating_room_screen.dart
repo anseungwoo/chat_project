@@ -1,141 +1,201 @@
 import 'package:bubble/bubble.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:test_provider/constant/size.dart';
+import 'package:test_provider/models/chating_model.dart';
+import 'package:test_provider/models/user_model_state.dart';
 import 'package:test_provider/provider/chating_room_provider.dart';
+import 'package:test_provider/repos/chat_net_repositoy.dart';
+import 'package:test_provider/screen/plus.dart';
 
 class ChatingRoomScreen extends StatefulWidget {
   final Function onMenuChanged;
+  final String chatRoomId;
+  final String otherUser;
+  final String myUser;
 
-  const ChatingRoomScreen({Key key, this.onMenuChanged}) : super(key: key);
+  const ChatingRoomScreen(this.chatRoomId, this.otherUser, this.myUser,
+      {Key key, this.onMenuChanged})
+      : super(key: key);
 
   @override
   _ChatingRoomScreenState createState() => _ChatingRoomScreenState();
 }
 
 class _ChatingRoomScreenState extends State<ChatingRoomScreen> {
+  TextEditingController messageController = TextEditingController();
+  Stream<QuerySnapshot> chatMessagesStream;
+
+  Widget chatMessages() {
+    return StreamBuilder(
+      stream: chatMessagesStream,
+      builder: (context, snapshot) {
+        return snapshot.hasData
+            ? ListView.builder(
+                itemCount: snapshot.data.docs.length,
+                itemBuilder: (context, index) {
+                  return MessageTile(
+                    message: snapshot.data.docs[index].data()["message"],
+                    sendByMe: widget.myUser ==
+                        snapshot.data.docs[index].data()["sendBy"],
+                    name:widget.otherUser,
+                  );
+                })
+            : Container();
+      },
+    );
+  }
+
+  sendMessage() {
+    if (messageController.text.isNotEmpty) {
+      Map<String, dynamic> messageMap = {
+        "message": messageController.text,
+        "sendBy": widget.myUser,
+        "chating_time": DateTime.now().millisecondsSinceEpoch
+      };
+      chatNetRepositoy.addConversationMessages(widget.chatRoomId, messageMap);
+      setState(() {
+        messageController.text = "";
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    chatNetRepositoy.getConversationMessages(widget.chatRoomId).then((value) {
+      setState(() {
+        chatMessagesStream = value;
+      });
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (BuildContext context) {
-        return ChatingRoomProvider();
-      },
-      child: Consumer<ChatingRoomProvider>(
-        builder: (BuildContext context, chatingRoomProvider, Widget child) {
-          return Scaffold(
-            body: SafeArea(
-              child: Column(
-                children: [
-                  Container(
-                    color: Colors.black12,
-                    child: Padding(
-                      padding: const EdgeInsets.all(13.0),
-                      child: Row(
-                        children: [
-                          InkWell(
-                              onTap: () {
-                                Navigator.pop(context);
-                              },
-                              child: Icon(Icons.arrow_back)),
-                          SizedBox(
-                            width: screenSize(context).width / 30,
-                          ),
-                          Expanded(child: Text("채팅방 이름 775")),
-                          SizedBox(
-                            width: screenSize(context).width / 30,
-                          ),
-                          Icon(Icons.search),
-                          SizedBox(
-                            width: screenSize(context).width / 30,
-                          ),
-                          IconButton(
-                            onPressed: (){
-                              widget.onMenuChanged();
-                            },
-                              icon:(Icon(Icons.list_outlined))),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Container(
-                      color: Color.fromRGBO(0, 100, 255, 0.2),
-                      child: ListView.builder(
-                          reverse: true,
-                          itemCount: chatingRoomProvider.messages.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            //chatingRoomProvider.messages[index]
-                            return Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                children: [
-                                  CircleAvatar(
-                                    backgroundImage: NetworkImage(
-                                        "https://picsum.photos/200"),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Column(
+    return Scaffold(
+      appBar: appBarMain(context),
+      body: Container(
+        child: Stack(
+          children: [
+            chatMessages(),
 
-                                      children: [
-                                        Text("이름"),
-                                        SizedBox(
-                                          width:
-                                              screenSize(context).width / 2.2,
-                                          child: Bubble(
-                                            color: Colors.white,
-                                            nip: BubbleNip.leftTop,
-                                            child: Text(
-                                                "${chatingRoomProvider.messages[index]}"),
-                                          ),
-                                        )
-                                        //
-                                      ],
-                                    ),
-                                  )
-                                ],
-                              ),
-                            );
-                          }),
-                    ),
-                  ),
-                  Row(
-                    children: [
-                      SizedBox(
-                        width: screenSize(context).width / 30,
-                      ),
-                      Icon(Icons.photo),
-                      Flexible(
+            Container(alignment: Alignment.bottomCenter,
+              width: screenSize(context).width,
+              child: Container(
+
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                color: Color(0x54FFFFFF),
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: 4,
                         child: TextField(
-                          controller: chatingRoomProvider.messageContorller,
+                          controller: messageController,
                           decoration: InputDecoration(
-                              border: InputBorder.none,
-                              focusedBorder: InputBorder.none,
-                              enabledBorder: InputBorder.none,
-                              errorBorder: InputBorder.none,
-                              disabledBorder: InputBorder.none,
-                              contentPadding: EdgeInsets.only(
-                                  left: 15, bottom: 11, top: 11, right: 15),
-                              hintText: "여기에 입력하세요."),
-                        ),
-                      ),
-                      InkWell(
-                          splashColor: Colors.blue,
-                          onTap: () {
-                            chatingRoomProvider.setMessage();
-                          },
-                          child: Icon(Icons.airplanemode_active)),
-                      SizedBox(
-                        width: screenSize(context).width / 30,
-                      ),
-                    ],
-                  ),
-                ],
+                              hintText: "메세지를 입력해주세요..",
+                              hintStyle: TextStyle(
+                                color: Colors.black26,
+                                fontSize: 16,
+                              ),
+                              border: InputBorder.none
+                          ),
+                        )),
+
+                    GestureDetector(
+                      onTap: () {
+                        sendMessage();
+                      },
+                      child: Container(
+                          height: 40,
+                          width: 40,
+                          decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                  colors: [
+                                    const Color(0x36FFFFFF),
+                                    const Color(0x0FFFFFFF)
+                                  ],
+                                  begin: FractionalOffset.topLeft,
+                                  end: FractionalOffset.bottomRight
+                              ),
+                              borderRadius: BorderRadius.circular(40)
+                          ),
+                          padding: EdgeInsets.all(12),
+                          child: Icon(Icons.add)),
+                    ),
+                  ],
+                ),
               ),
             ),
-          );
-        },
+          ],
+        ),
       ),
     );
   }
+}
+class MessageTile extends StatelessWidget{
+  final String message;
+  final bool sendByMe;
+  final String name;
+
+ MessageTile({Key key, this.message, this.sendByMe, this.name}) : super(key: key);
+
+
+
+  @override
+  Widget build(BuildContext context) {
+    UserModelState userModelState =Provider.of<UserModelState>(context);
+    return Expanded(
+        child: Container(
+          color: Color.fromRGBO(0, 100, 255, 0.2),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: sendByMe
+                  ? MainAxisAlignment.end
+                  : MainAxisAlignment.start,
+              children: [
+                sendByMe ?  Container(): CircleAvatar(
+                  backgroundImage: NetworkImage(
+                      userModelState.userModel
+                          .profileImg),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: sendByMe
+                        ? CrossAxisAlignment.end
+                        : CrossAxisAlignment.start,
+                    children: [
+                      Text(sendByMe?userModelState.userModel.email:name),
+                      SizedBox(
+                        width:
+                        screenSize(context).width / 2.2,
+                        child: Bubble(
+                          color: Colors.white,
+                          nip: sendByMe ? BubbleNip.rightTop: BubbleNip.leftTop,
+                          child: Text(
+                            message,
+                            textAlign: sendByMe ? TextAlign.end : TextAlign
+                                .start,),
+                        ),
+                      ),
+
+                    ],
+                  ),
+                ),
+
+                sendByMe ? CircleAvatar(
+                    backgroundImage: NetworkImage(
+                        userModelState.userModel
+                            .profileImg))
+                    : Container(),
+              ],
+            ),
+          ),
+        )
+    );
+  }
+
+
 }

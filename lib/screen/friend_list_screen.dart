@@ -191,7 +191,7 @@ class FriendListScreen extends StatelessWidget {
                       onTap: () {
                         Navigator.push(context,
                             MaterialPageRoute(builder: (context) =>
-                                ProfileFriendScreen(otherUser)));
+                                ProfileFriendScreen(otherUser,Memail:mUserModelState.userModel.email)));
                       },
                       child: Row(
                         children: [

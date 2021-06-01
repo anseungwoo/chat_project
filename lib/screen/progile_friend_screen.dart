@@ -4,15 +4,17 @@ import 'package:provider/provider.dart';
 import 'package:test_provider/constant/size.dart';
 import 'package:test_provider/models/user_model.dart';
 import 'package:test_provider/models/user_model_state.dart';
+import 'package:test_provider/repos/chatroom_net_repositoy.dart';
 
 import 'chating_room_screen.dart';
 
 
 class ProfileFriendScreen extends StatelessWidget {
   final UserModel usermodel;
+  final String Memail;
   double _radius = 50;
 
-  ProfileFriendScreen(this.usermodel,{Key key}) : super(key: key);
+  ProfileFriendScreen(this.usermodel,{Key key,@required this.Memail}) : super(key: key);
 
   @override
 
@@ -89,11 +91,8 @@ class ProfileFriendScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (_) => ChatingRoomScreen()));
+                            onTap: (){
+                              createChatRoom(context,usermodel.email,Memail);
                             },
                             child: Column(
                               children: [
@@ -119,5 +118,23 @@ class ProfileFriendScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+  createChatRoom(BuildContext context,String userEmail,String myemail){
+    List<String> user= [userEmail,myemail];
+   String RoomId= getChatRoomId(userEmail,myemail);
+    Map<String,dynamic> charRoom ={
+      "userkeys": user,
+      "room_name":RoomId,
+    };
+    chatRoomNetRepositoy.createChatRoom(chatRoomID: RoomId,chatRoomMap:charRoom);
+    Navigator.push(context, MaterialPageRoute(builder: (_)=>ChatingRoomScreen(RoomId,userEmail,myemail)));
+  }
+  getChatRoomId(String a,String b){
+    if(a.substring(0,1).codeUnitAt(0)>b.substring(0,1).codeUnitAt(0)){
+      return "$a\_$b";
+    }
+    else{
+      return "$b\_$a";
+    }
   }
 }

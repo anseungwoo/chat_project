@@ -9,6 +9,7 @@ class ChatRoomModel{
   final String roomname;
   final String lastchat;
   final String roomImg;
+
   final DocumentReference reference;
 
   ChatRoomModel.fromMap(Map<String, dynamic> map, this.roomkey, {this.reference})
@@ -27,7 +28,7 @@ class ChatRoomModel{
 
   static Map<String,dynamic> getMapForNewChtaingRoom(String roomkey){
     Map<String,dynamic> map =Map();
-    map[KEY_ROOMNAME]="";
+    map[KEY_ROOMNAME]=roomkey;
     map[KEY_LAST_CHAT]="";
     map[KEY_ROOM_IMG]="";
     map[KEY_USERKEYS]=[];

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:local_image_provider/local_album.dart';
 import 'package:provider/provider.dart';
 import 'package:test_provider/models/user_model_state.dart';
 import 'package:test_provider/provider/page_provider.dart';
 import 'package:test_provider/screen/chat_room_screen.dart';
-import 'package:test_provider/screen/friend_list_2_screen.dart';
 import 'package:test_provider/screen/friend_list_screen.dart';
 import 'package:test_provider/screen/search_screen.dart';
 
@@ -54,8 +54,11 @@ class _BottomNaviScreenState extends State<BottomNaviScreen> {
             },
             children: [
               FriendListScreen(),
+              Consumer<UserModelState>(
+                  builder: (BuildContext context, UserModelState userModelState, Widget child) {
+                return ChatRoomScreen(userModelState.userModel.email);
+              }),
 
-              ChatRoomScreen(),
               SearchScreen(),
             ],
           );

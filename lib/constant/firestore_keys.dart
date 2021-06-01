@@ -1,6 +1,7 @@
 const COLLECTION_USERS = 'Users';
 const COLLECTION_POSTS = 'Posts';
 const COLLECTION_CHATING = 'chating';
+const COLLECTION_CHAT_ROOM = 'CHAT_ROOM';
 
 const KEY_USERKEY="user_key";
 const KEY_POSTKEY="post_key";
@@ -27,6 +28,8 @@ const KEY_SENDTIME="sned_time";
 const KEY_ROOMKEY="roomkey";
 const KEY_ROOMNAME="room_name";
 const KEY_LAST_CHAT="last_chat";
+const KEY_MESSAGE="message";
+const KEY_SENDMESSAGE="sendBy";
 const KEY_LAST_CHATTIME="last_chattime";
 const KEY_ROOM_IMG="room_img";
 const KEY_USERKEYS="userkeys";
