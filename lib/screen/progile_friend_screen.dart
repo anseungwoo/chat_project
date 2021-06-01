@@ -2,27 +2,21 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:test_provider/constant/size.dart';
+import 'package:test_provider/models/user_model.dart';
 import 'package:test_provider/models/user_model_state.dart';
-import 'package:test_provider/screen/profile_edit_screen.dart';
+
 import 'chating_room_screen.dart';
 
-class ProfileScreen extends StatefulWidget {
 
-
-  @override
-  _ProfileScreenState createState() => _ProfileScreenState();
-}
-
-class _ProfileScreenState extends State<ProfileScreen> {
-
+class ProfileFriendScreen extends StatelessWidget {
+  final UserModel usermodel;
   double _radius = 50;
+
+  ProfileFriendScreen(this.usermodel,{Key key}) : super(key: key);
 
   @override
 
   Widget build(BuildContext context) {
-
-    UserModelState userModelState = Provider.of<UserModelState>(context);
-
     return Scaffold(
       body: SafeArea(
         child: Stack(
@@ -30,19 +24,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
             Container(
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: NetworkImage(userModelState.userModel.backImage),
+                  image: NetworkImage(usermodel.backImage),
                   fit: BoxFit.cover,
                 ),
               ),
             ),
 
             Positioned(
-              bottom: screenSize(context).width / 1.2,
-              right: screenSize(context).width / 2 - _radius,
-              child: CircleAvatar(
-                backgroundImage: NetworkImage(userModelState.userModel.profileImg),
-                radius: _radius,
-              )
+                bottom: screenSize(context).width / 1.2,
+                right: screenSize(context).width / 2 - _radius,
+                child: CircleAvatar(
+                  backgroundImage: NetworkImage(usermodel.profileImg),
+                  radius: _radius,
+                )
             ),
 
             SizedBox(
@@ -55,9 +49,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     height: screenSize(context).width * 3 / 5,
                   ),
                   Text(
-                    userModelState == null || userModelState.userModel == null
-                        ? ""
-                        : userModelState.userModel.username,
+                   usermodel.username,
                     style: TextStyle(
                         fontSize: 30,
                         fontWeight: FontWeight.w500,
@@ -66,9 +58,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
                   Center(
                     child: Text(
-                      userModelState == null || userModelState.userModel == null
-                          ? ""
-                          : userModelState.userModel.message,
+                      usermodel.message,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
@@ -114,28 +104,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ),
                           ),
                           SizedBox(
-                            width: screenSize(context).width / 5,
+                            width: screenSize(context).width/100,
                           ),
-                          InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (_) => ProfileEditScreen()));
-                            },
-                            child: Column(
-                              children: [
-                                Icon(
-                                  Icons.person,
-                                  color: Colors.white,
-                                ),
-                                Text(
-                                  "내프로필수정하기",
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                              ],
-                            ),
-                          ),
+
                         ],
                       ),
                       SizedBox(

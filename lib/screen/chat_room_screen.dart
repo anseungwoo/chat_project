@@ -34,20 +34,20 @@ class ChatRoomScreen extends StatelessWidget {
                   //           MaterialPageRoute(
                   //               builder: (_) => SearchChtingroomScreen()));
                   //     }),
-                  IconButton(
-                      splashRadius: 12,
-                      icon: Icon(Icons.add_comment_outlined),
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (_) => AddChatRoomScreen()));
-                      }),
+                  // IconButton(
+                  //     splashRadius: 12,
+                  //     icon: Icon(Icons.add_comment_outlined),
+                  //     onPressed: () {
+                  //       Navigator.push(
+                  //           context,
+                  //           MaterialPageRoute(
+                  //               builder: (_) => AddChatRoomScreen()));
+                  //     }),
                 ],
               ),
               Expanded(
                 child: ListView.builder(
-                    itemCount: 10,
+                    itemCount: 1,
                     itemBuilder: (BuildContext context, int index) {
                       return InkWell(
                         splashColor: Colors.black38,
@@ -85,12 +85,7 @@ class ChatRoomScreen extends StatelessWidget {
                                             fontSize: 15,
                                             fontWeight: FontWeight.bold),
                                       ),
-                                      Text(
-                                        "7",
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                        ),
-                                      ),
+
                                     ],
                                   ),
                                   Text(

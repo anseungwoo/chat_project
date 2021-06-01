@@ -29,5 +29,4 @@ class UserModelState extends ChangeNotifier{
 
   }
 
-
 }

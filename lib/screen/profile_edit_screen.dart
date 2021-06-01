@@ -48,7 +48,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
             Container(
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: NetworkImage("https://picsum.photos/1000"),
+                  image: NetworkImage(userModelState.userModel.backImage),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -66,7 +66,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
               bottom: screenSize(context).width/1.2 ,
               right: screenSize(context).width / 2 - ProfileEditScreen._radius,
               child: CircleAvatar(
-                backgroundImage: NetworkImage("https://picsum.photos/200"),
+                backgroundImage: NetworkImage(userModelState.userModel.profileImg),
                 radius: ProfileEditScreen._radius,
               ),
             ),

@@ -13,12 +13,14 @@ class UserModel {
   final int friendcount;
   final int myfriendcount;
   final String backImage;
+  final String profileImg;
   final DocumentReference reference;
 
   UserModel.fromMap(Map<String, dynamic> map, this.userKey, {this.reference})
       : message = map[KEY_USER_MESSEAGE],
         friendmessage = map[KEY_FRIEND_MESSEAGE],
         backImage = map[KEY_BACKIMG],
+        profileImg = map[KEY_PROFILEIMG],
         email = map[KEY_EMAIL],
         friend = map[KEY_FRIEND],
         friendcount = map[KEY_FRIENDCOUNT],
@@ -39,9 +41,10 @@ class UserModel {
     map[KEY_MYFRIENDCOUNT]=0;
     map[KEY_FRIEND]=[];
     map[KEY_FRIEND_NAME]=[];
-    map[KEY_BACKIMG]="";
+    map[KEY_BACKIMG]="https://picsum.photos/200";
+    map[KEY_PROFILEIMG]="https://picsum.photos/200";
     map[KEY_FRIEND_MESSEAGE]=[];
-    map[KEY_USER_MESSEAGE] = "";
+    map[KEY_USER_MESSEAGE] = "상태메세지작성해주세요";
     map[KEY_EMAIL] = email;
     map[KEY_USERNAME] =
         map[KEY_USERNAME] == null ? map[KEY_EMAIL] : email.split("@")[0];

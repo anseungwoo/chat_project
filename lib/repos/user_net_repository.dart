@@ -17,32 +17,26 @@ class UserNetRepository with Transformers {
 
 
 
-  // Future<void> getUser({String userkey}) async {
-  //   List a=[];
-  //   final DocumentReference userRef =
-  //   FirebaseFirestore.instance.collection(COLLECTION_USERS).doc(userkey);
-  //   DocumentSnapshot snapshot = await userRef.get();
-  //   FirebaseFirestore.instance
-  //       .collection(COLLECTION_USERS)
-  //       .get()
-  //       .then((value) {
-  //         for(var i=0;i<value.docs.length;i++){
-  //           for(var j=0;j<snapshot.get(KEY_FRIEND.length);i++){
-  //             if(value.docs[i].id == snapshot.get(KEY_FRIEND[j]) )
-  //               a.add(value.docs[i].id);
-  //           }
-  //         }
-  //
-  //   });
-  //   print(a);
-  // }
-
   Future<void> namecommet({String userKey, String name, String commet}) async {
     final DocumentReference ncRef =
         FirebaseFirestore.instance.collection(COLLECTION_USERS).doc(userKey);
     final DocumentSnapshot ncSnapshot = await ncRef.get();
 
     await ncRef.update({KEY_USERNAME: name, KEY_USER_MESSEAGE: commet});
+  }
+  Future<void> composts({String userKey, String post}) async {
+    final DocumentReference ncRef =
+        FirebaseFirestore.instance.collection(COLLECTION_USERS).doc(userKey);
+    final DocumentSnapshot ncSnapshot = await ncRef.get();
+
+    await ncRef.update({KEY_PROFILEIMG: post});
+  }
+  Future<void> baposts({String userKey, String post}) async {
+    final DocumentReference ncRef =
+    FirebaseFirestore.instance.collection(COLLECTION_USERS).doc(userKey);
+    final DocumentSnapshot ncSnapshot = await ncRef.get();
+
+    await ncRef.update({KEY_BACKIMG: post});
   }
 
   Stream<List<UserModel>> getAllUser() {
@@ -51,6 +45,23 @@ class UserNetRepository with Transformers {
         .snapshots()
         .transform(toUsers);
   }
+
+
+  Stream<List<UserModel>> getUser(List<dynamic> followings) {
+    final CollectionReference collectionRefernce =
+    FirebaseFirestore.instance.collection(COLLECTION_USERS);
+    List<Stream<List<UserModel>>> streams = [];
+    for (final following in followings) {
+      streams.add(collectionRefernce.where(KEY_FRIEND,isEqualTo: following)
+          .snapshots()
+          .transform(toUsers));
+    }
+    return CombineLatestStream.list<List<UserModel>>(streams)
+        .transform(combineListOfUser);
+  }
+
+
+
 
 
   Stream<UserModel> getUserModelStream(String userKey) {

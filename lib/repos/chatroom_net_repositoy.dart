@@ -4,4 +4,4 @@ class ChatRoomNetRepositoy with Transformers {
 
 }
 
-ChatRoomNetRepositoy userNetRepository = ChatRoomNetRepositoy();
+ChatRoomNetRepositoy chatRoomNetRepositoy = ChatRoomNetRepositoy();

@@ -6,7 +6,6 @@ import 'package:test_provider/models/firebase_auth_state.dart';
 import 'package:test_provider/models/user_model_state.dart';
 import 'package:test_provider/repos/user_net_repository.dart';
 import 'package:test_provider/screen/login_screen.dart';
-
 import 'screen/indicator.dart';
 
 void main() async {
@@ -82,4 +81,5 @@ class MyApp extends StatelessWidget {
     Provider.of<UserModelState>(context, listen: false);
     userModelState.clear();
   }
+
 }

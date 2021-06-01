@@ -77,7 +77,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 Expanded(
                   child: ListView.separated(
                     padding: const EdgeInsets.all(8),
-                    itemCount: entries.length,
+                    itemCount: 10,
                     itemBuilder: (BuildContext context, int index){
                       return _build(context, city, index);
                     },

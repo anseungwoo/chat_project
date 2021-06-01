@@ -30,9 +30,16 @@ class PostNetRepository with Transformers{
     final DocumentReference postRef =
     FirebaseFirestore.instance.collection(COLLECTION_POSTS).doc(postKey);
     final DocumentSnapshot postSnapshot = await postRef.get();
-
     if (postSnapshot.exists) {
       await postRef.update({KEY_PROFILEIMG: postImg});
+    }
+  }
+  Future<void> updateBackImageUrl({String postImg, String postKey}) async {
+    final DocumentReference postRef =
+    FirebaseFirestore.instance.collection(COLLECTION_POSTS).doc(postKey);
+    final DocumentSnapshot postSnapshot = await postRef.get();
+    if (postSnapshot.exists) {
+      await postRef.update({KEY_BACKIMG: postImg});
     }
   }
 
@@ -43,6 +50,7 @@ class PostNetRepository with Transformers{
         .snapshots()
         .transform(toPosts);
   }
+
   Stream<List<PostModel>> fetchPostFromAllFollowers(List<dynamic> followings) {
     final CollectionReference collectionRefernce =
     FirebaseFirestore.instance.collection(COLLECTION_POSTS);
@@ -54,6 +62,7 @@ class PostNetRepository with Transformers{
           .snapshots()
           .transform(toPosts));
     }
+
     return CombineLatestStream.list<List<PostModel>>(streams)
         .transform(combineListOfPosts)
         .transform(latestToTop);

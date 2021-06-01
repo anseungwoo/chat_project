@@ -39,6 +39,7 @@ class _MyGalleryState extends State<GalleryScreen> {
         final String postKey = getNewPostKey(
             Provider.of<UserModelState>(context, listen: false)
                 .userModel);
+
         try {
           final path = join(
               (await getTemporaryDirectory()).path, '$postKey.png');
