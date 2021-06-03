@@ -1,14 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import 'package:test_provider/constant/firestore_keys.dart';
+import 'package:test_provider/constant/transformers.dart';
 
-class SearchNetRepositoy {
- searchStream(String userKey) async{
-    return FirebaseFirestore.instance
-        .collection("store")
-        .doc(userKey)
-        .snapshots();
+class SearchNetRepository with Transformers {
+  getStoreId(String storeId) async {
+    return await FirebaseFirestore.instance
+        .collection(storeId).snapshots();
   }
 }
 
-
-SearchNetRepositoy searchNetRepositoy =SearchNetRepositoy();
+SearchNetRepository searchNetRepository = SearchNetRepository();
