@@ -7,7 +7,7 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:test_provider/constant/generate_post_key.dart';
-import 'package:test_provider/models/gallery_state.dart';
+import 'package:test_provider/State/gallery_state.dart';
 import 'package:test_provider/models/user_model_state.dart';
 import 'package:test_provider/screen/share_post_screen.dart';
 

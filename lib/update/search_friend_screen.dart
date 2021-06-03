@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_search_bar/flutter_search_bar.dart';
 import 'package:test_provider/models/user_model.dart';
 
-import 'profile_screen.dart';
+import '../screen/profile_screen.dart';
 
 class SearchFriendScreen extends StatefulWidget {
   @override

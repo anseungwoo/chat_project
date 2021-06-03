@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:test_provider/models/PostModel.dart';
-import 'package:test_provider/models/firebase_auth_state.dart';
+import 'package:test_provider/State/firebase_auth_state.dart';
 import 'package:test_provider/models/user_model.dart';
 
 class Transformers {

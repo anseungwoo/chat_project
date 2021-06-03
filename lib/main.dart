@@ -2,7 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:test_provider/main_provider.dart';
-import 'package:test_provider/models/firebase_auth_state.dart';
+import 'package:test_provider/State/firebase_auth_state.dart';
 import 'package:test_provider/models/user_model_state.dart';
 import 'package:test_provider/repos/user_net_repository.dart';
 import 'package:test_provider/screen/login_screen.dart';

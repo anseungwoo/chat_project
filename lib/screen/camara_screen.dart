@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:test_provider/models/camera_state.dart';
-import 'package:test_provider/models/gallery_state.dart';
+import 'package:test_provider/State/camera_state.dart';
+import 'package:test_provider/State/gallery_state.dart';
 
 import 'camara_main_screen.dart';
 import 'gallery_screen.dart';

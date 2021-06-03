@@ -9,7 +9,7 @@ class ChatNetRepositoy with Transformers {
         .collection(COLLECTION_CHAT_ROOM)
         .doc(chatRoomId)
         .collection(COLLECTION_CHATING)
-        .orderBy("chating_time",descending: false)
+        .orderBy("chating_time",descending: true)
         .snapshots();
   }
 

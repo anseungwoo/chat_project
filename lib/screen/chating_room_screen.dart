@@ -7,7 +7,7 @@ import 'package:test_provider/models/chating_model.dart';
 import 'package:test_provider/models/user_model_state.dart';
 import 'package:test_provider/provider/chating_room_provider.dart';
 import 'package:test_provider/repos/chat_net_repositoy.dart';
-import 'package:test_provider/screen/plus.dart';
+
 
 class ChatingRoomScreen extends StatefulWidget {
   final Function onMenuChanged;
@@ -32,16 +32,18 @@ class _ChatingRoomScreenState extends State<ChatingRoomScreen> {
       stream: chatMessagesStream,
       builder: (context, snapshot) {
         return snapshot.hasData
-            ? ListView.builder(
-                itemCount: snapshot.data.docs.length,
-                itemBuilder: (context, index) {
-                  return MessageTile(
-                    message: snapshot.data.docs[index].data()["message"],
-                    sendByMe: widget.myUser ==
-                        snapshot.data.docs[index].data()["sendBy"],
-                    name:widget.otherUser,
-                  );
-                })
+            ? Expanded(
+              child: ListView.builder(reverse: true,
+                  itemCount: snapshot.data.docs.length,
+                  itemBuilder: (context, index) {
+                    return MessageTile(
+                      message: snapshot.data.docs[index].data()["message"],
+                      sendByMe: widget.myUser ==
+                          snapshot.data.docs[index].data()["sendBy"],
+                      name:widget.otherUser,
+                    );
+                  }),
+            )
             : Container();
       },
     );
@@ -74,13 +76,20 @@ class _ChatingRoomScreenState extends State<ChatingRoomScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarMain(context),
+      appBar: AppBar(
+        title:Text(
+          "채팅방"
+        ),
+        elevation: 0.0,
+        centerTitle: false,
+      ),
       body: Container(
-        child: Stack(
+        child: Column(
           children: [
             chatMessages(),
 
-            Container(alignment: Alignment.bottomCenter,
+            Container(
+              alignment: Alignment.bottomCenter,
               width: screenSize(context).width,
               child: Container(
 
@@ -145,55 +154,53 @@ class MessageTile extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     UserModelState userModelState =Provider.of<UserModelState>(context);
-    return Expanded(
-        child: Container(
-          color: Color.fromRGBO(0, 100, 255, 0.2),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: sendByMe
-                  ? MainAxisAlignment.end
-                  : MainAxisAlignment.start,
-              children: [
-                sendByMe ?  Container(): CircleAvatar(
-                  backgroundImage: NetworkImage(
-                      userModelState.userModel
-                          .profileImg),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: sendByMe
-                        ? CrossAxisAlignment.end
-                        : CrossAxisAlignment.start,
-                    children: [
-                      Text(sendByMe?userModelState.userModel.email:name),
-                      SizedBox(
-                        width:
-                        screenSize(context).width / 2.2,
-                        child: Bubble(
-                          color: Colors.white,
-                          nip: sendByMe ? BubbleNip.rightTop: BubbleNip.leftTop,
-                          child: Text(
-                            message,
-                            textAlign: sendByMe ? TextAlign.end : TextAlign
-                                .start,),
-                        ),
-                      ),
-
-                    ],
-                  ),
-                ),
-
-                sendByMe ? CircleAvatar(
-                    backgroundImage: NetworkImage(
-                        userModelState.userModel
-                            .profileImg))
-                    : Container(),
-              ],
+    return Container(
+      color: Color.fromRGBO(0, 100, 255, 0.2),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          mainAxisAlignment: sendByMe
+              ? MainAxisAlignment.end
+              : MainAxisAlignment.start,
+          children: [
+            sendByMe ?  Container(): CircleAvatar(
+              backgroundImage: NetworkImage(
+                  userModelState.userModel
+                      .profileImg),
             ),
-          ),
-        )
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: sendByMe
+                    ? CrossAxisAlignment.end
+                    : CrossAxisAlignment.start,
+                children: [
+                  Text(sendByMe?userModelState.userModel.email:name),
+                  SizedBox(
+                    width:
+                    screenSize(context).width / 2.2,
+                    child: Bubble(
+                      color: Colors.white,
+                      nip: sendByMe ? BubbleNip.rightTop: BubbleNip.leftTop,
+                      child: Text(
+                        message,
+                        textAlign: sendByMe ? TextAlign.end : TextAlign
+                            .start,),
+                    ),
+                  ),
+
+                ],
+              ),
+            ),
+
+            sendByMe ? CircleAvatar(
+                backgroundImage: NetworkImage(
+                    userModelState.userModel
+                        .profileImg))
+                : Container(),
+          ],
+        ),
+      ),
     );
   }
 

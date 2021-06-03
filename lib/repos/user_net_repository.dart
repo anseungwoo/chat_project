@@ -15,8 +15,6 @@ class UserNetRepository with Transformers {
     }
   }
 
-
-
   Future<void> namecommet({String userKey, String name, String commet}) async {
     final DocumentReference ncRef =
         FirebaseFirestore.instance.collection(COLLECTION_USERS).doc(userKey);
@@ -24,6 +22,7 @@ class UserNetRepository with Transformers {
 
     await ncRef.update({KEY_USERNAME: name, KEY_USER_MESSEAGE: commet});
   }
+
   Future<void> composts({String userKey, String post}) async {
     final DocumentReference ncRef =
         FirebaseFirestore.instance.collection(COLLECTION_USERS).doc(userKey);
@@ -31,9 +30,10 @@ class UserNetRepository with Transformers {
 
     await ncRef.update({KEY_PROFILEIMG: post});
   }
+
   Future<void> baposts({String userKey, String post}) async {
     final DocumentReference ncRef =
-    FirebaseFirestore.instance.collection(COLLECTION_USERS).doc(userKey);
+        FirebaseFirestore.instance.collection(COLLECTION_USERS).doc(userKey);
     final DocumentSnapshot ncSnapshot = await ncRef.get();
 
     await ncRef.update({KEY_BACKIMG: post});
@@ -46,21 +46,12 @@ class UserNetRepository with Transformers {
         .transform(toUsers);
   }
 
-
-  Stream<List<UserModel>> getUser(List<dynamic> followings) {
-    final CollectionReference collectionRefernce =
-    FirebaseFirestore.instance.collection(COLLECTION_USERS);
-    List<Stream<List<UserModel>>> streams = [];
-    for (final following in followings) {
-      streams.add(collectionRefernce.where(KEY_FRIEND,isEqualTo: following)
-          .snapshots()
-          .transform(toUsers));
-    }
-    return CombineLatestStream.list<List<UserModel>>(streams)
-        .transform(combineListOfUser);
+  Stream<List<UserModel>> getAllsUser(String key) {
+    return FirebaseFirestore.instance
+        .collection(COLLECTION_USERS)
+        .where(KEY_FRIEND,arrayContains: key)
+        .snapshots().transform(toUsers);
   }
-
-
 
 
 
@@ -72,20 +63,6 @@ class UserNetRepository with Transformers {
         .transform(toUser);
   }
 
-  Stream<List<UserModel>> fetchUserFromAllFollowers(List<dynamic> followings) {
-    final CollectionReference collectionRefernce =
-    FirebaseFirestore.instance.collection(COLLECTION_USERS);
-    List<Stream<List<UserModel>>> streams = [];
-
-    for (final following in followings) {
-      streams.add(collectionRefernce
-          .where(KEY_USERKEY, isEqualTo: following)
-          .snapshots()
-          .transform(touser));
-    }
-    return CombineLatestStream.list<List<UserModel>>(streams)
-        .transform(combineListOfUser);
-  }
 
   Future<void> addUser({String myUserKey, String otherUserKey}) async {
     final DocumentReference myUserRef =
@@ -111,9 +88,10 @@ class UserNetRepository with Transformers {
       }
     });
   }
+
   Future<void> addCUser({String myUserKey, String otherUserKey}) async {
     final DocumentReference myUserRef =
-    FirebaseFirestore.instance.collection(COLLECTION_USERS).doc(myUserKey);
+        FirebaseFirestore.instance.collection(COLLECTION_USERS).doc(myUserKey);
     final DocumentSnapshot mySnapshot = await myUserRef.get();
     final DocumentReference otherUserRef = FirebaseFirestore.instance
         .collection(COLLECTION_USERS)
@@ -157,10 +135,10 @@ class UserNetRepository with Transformers {
         int currenCount1 = mySnapshot.get(KEY_MYFRIENDCOUNT);
         tx.update(otherUserRef, {KEY_FRIENDCOUNT: currenCount - 1});
         tx.update(myUserRef, {KEY_MYFRIENDCOUNT: currenCount1 - 1});
-
       }
     });
   }
+
   Future<void> unaddCUser({String myUserKey, String otherUserKey}) async {
     final DocumentReference myUserRef =
         FirebaseFirestore.instance.collection(COLLECTION_USERS).doc(myUserKey);
@@ -182,7 +160,6 @@ class UserNetRepository with Transformers {
         int currenCount1 = mySnapshot.get(KEY_FRIENDCOUNT);
         tx.update(otherUserRef, {KEY_MYFRIENDCOUNT: currenCount - 1});
         tx.update(myUserRef, {KEY_FRIENDCOUNT: currenCount1 - 1});
-
       }
     });
   }
