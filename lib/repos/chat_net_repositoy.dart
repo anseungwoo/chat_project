@@ -5,7 +5,7 @@ import 'package:test_provider/constant/transformers.dart';
 
 class ChatNetRepositoy with Transformers {
   getConversationMessages(String chatRoomId) async {
-    return await FirebaseFirestore.instance
+    return FirebaseFirestore.instance
         .collection(COLLECTION_CHAT_ROOM)
         .doc(chatRoomId)
         .collection(COLLECTION_CHATING)

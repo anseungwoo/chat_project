@@ -142,22 +142,17 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                                           ),
                                           Expanded(
                                             child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
-                                                Row(
-                                                  children: [
-                                                    Text(
-                                                      userEmail,
-                                                      maxLines: 1,
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                      style: TextStyle(
-                                                          fontSize: 15,
-                                                          fontWeight:
-                                                              FontWeight.bold),
-                                                    ),
-                                                  ],
+                                                Text(
+                                                  userEmail,
+                                                  maxLines: 1,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  style: TextStyle(
+                                                      fontSize: 15,
+                                                      fontWeight:
+                                                          FontWeight.bold),
                                                 ),
                                               ],
                                             ),
@@ -165,16 +160,10 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                                           Spacer(
                                             flex: 1,
                                           ),
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.end,
-                                            children: [
-                                              Text(
-                                                "채티방들어가기",
-                                                style:
-                                                    TextStyle(color: Colors.black),
-                                              ),
-                                            ],
+                                          Text(
+                                            "채티방들어가기",
+                                            style:
+                                                TextStyle(color: Colors.black),
                                           ),
 
                                         ],

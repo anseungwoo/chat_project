@@ -3,9 +3,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:test_provider/constant/size.dart';
-import 'package:test_provider/models/PostModel.dart';
+import 'package:test_provider/models/post_model.dart';
 import 'package:test_provider/models/user_model.dart';
-import 'package:test_provider/models/user_model_state.dart';
+import 'package:test_provider/State/user_model_state.dart';
 
 import 'package:test_provider/repos/image_net_repository.dart';
 import 'package:test_provider/repos/post_net_repository.dart';

@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:image/image.dart';
 import 'package:provider/provider.dart';
 import 'package:test_provider/constant/color.dart';
-import 'package:test_provider/constant/imafe_helper.dart';
 import 'package:test_provider/models/user_model.dart';
-import 'package:test_provider/models/user_model_state.dart';
+import 'package:test_provider/State/user_model_state.dart';
 import 'package:test_provider/provider/friend_screen_provider.dart';
 import 'package:test_provider/repos/user_net_repository.dart';
 import 'package:test_provider/update/add_friend_screen.dart';

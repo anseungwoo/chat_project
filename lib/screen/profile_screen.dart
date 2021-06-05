@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:test_provider/constant/size.dart';
-import 'package:test_provider/models/user_model_state.dart';
+import 'package:test_provider/State/user_model_state.dart';
 import 'package:test_provider/repos/chatroom_net_repositoy.dart';
 import 'package:test_provider/screen/profile_edit_screen.dart';
 import 'chating_room_screen.dart';

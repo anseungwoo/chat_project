@@ -8,9 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:test_provider/constant/size.dart';
-import 'package:test_provider/models/PostModel.dart';
+import 'package:test_provider/models/post_model.dart';
 import 'package:test_provider/State/firebase_auth_state.dart';
-import 'package:test_provider/models/user_model_state.dart';
+import 'package:test_provider/State/user_model_state.dart';
 import 'package:test_provider/screen/camara_screen.dart';
 
 import 'profile_screen.dart';

@@ -6,7 +6,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:test_provider/constant/generate_post_key.dart';
 import 'package:test_provider/State/camera_state.dart';
-import 'package:test_provider/models/user_model_state.dart';
+import 'package:test_provider/State/user_model_state.dart';
 import 'package:test_provider/screen/share_post_screen.dart';
 import 'indicator.dart';
 

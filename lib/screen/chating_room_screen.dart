@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:test_provider/constant/size.dart';
 import 'package:test_provider/models/chating_model.dart';
-import 'package:test_provider/models/user_model_state.dart';
+import 'package:test_provider/State/user_model_state.dart';
 import 'package:test_provider/provider/chating_room_provider.dart';
 import 'package:test_provider/repos/chat_net_repositoy.dart';
 
@@ -84,10 +84,10 @@ class _ChatingRoomScreenState extends State<ChatingRoomScreen> {
         centerTitle: false,
       ),
       body: Container(
+          color: Color.fromRGBO(0, 100, 255, 0.2),
         child: Column(
           children: [
             chatMessages(),
-
             Container(
               alignment: Alignment.bottomCenter,
               width: screenSize(context).width,
